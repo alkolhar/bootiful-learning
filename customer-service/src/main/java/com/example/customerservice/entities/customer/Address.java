@@ -26,4 +26,12 @@ public class Address {
     @JoinColumn(name = "state_province_id")
     private StateProvince stateProvince;
 
+    public static Address newInstance(String addressLine1, String postalCode, StateProvince stateProvince) {
+        Address address = new Address();
+        address.setAddressLine1(addressLine1);
+        address.setPostalCode(postalCode);
+        address.setStateProvince(stateProvince);
+        return address;
+    }
+
 }

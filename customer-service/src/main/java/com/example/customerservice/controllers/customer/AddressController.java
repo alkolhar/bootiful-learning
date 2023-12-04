@@ -1,11 +1,11 @@
 package com.example.customerservice.controllers.customer;
 
 import com.example.customerservice.assemblers.customer.AddressRepresentationModelAssembler;
-import com.example.customerservice.services.customer.StateProvinceService;
 import com.example.customerservice.entities.customer.Address;
 import com.example.customerservice.entities.customer.StateProvince;
 import com.example.customerservice.entities.customer.dto.AddressCreationDto;
 import com.example.customerservice.services.customer.AddressService;
+import com.example.customerservice.services.customer.StateProvinceService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.apache.coyote.BadRequestException;
@@ -37,11 +37,7 @@ public class AddressController {
     @PreAuthorize("hasAuthority('managers')")
     public ResponseEntity<EntityModel<Address>> create(@Valid @RequestBody AddressCreationDto creationDto) {
         StateProvince state = stateProvinceService.get(creationDto.getStateProvinceId());
-
-        Address address = new Address();
-        address.setAddressLine1(creationDto.getAddressLine1());
-        address.setPostalCode(creationDto.getPostalCode());
-        address.setStateProvince(state);
+        Address address = Address.newInstance(creationDto.getAddressLine1(), creationDto.getPostalCode(), state);
 
         return ResponseEntity.ok(assembler.toModel(addressService.create(address)));
     }

@@ -1,7 +1,7 @@
 package com.example.customerservice.controllers.customer;
 
-import com.example.customerservice.entities.customer.Country;
 import com.example.customerservice.assemblers.customer.CountryRepresentationModelAssembler;
+import com.example.customerservice.entities.customer.Country;
 import com.example.customerservice.services.customer.CountryService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;

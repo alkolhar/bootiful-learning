@@ -1,4 +1,4 @@
-package com.example.customerservice;
+package com.example.customerservice.entities.customer.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -6,9 +6,6 @@ import lombok.Value;
 
 import java.io.Serializable;
 
-/**
- * DTO for {@link com.example.customerservice.entities.customer.Customer}
- */
 @Value
 public class CustomerCreationDto implements Serializable {
     @NotBlank

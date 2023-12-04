@@ -1,11 +1,11 @@
 package com.example.customerservice.controllers.customer;
 
-import com.example.customerservice.CustomerCreationDto;
 import com.example.customerservice.assemblers.customer.CustomerRepresentationModelAssembler;
 import com.example.customerservice.entities.customer.Address;
+import com.example.customerservice.entities.customer.Customer;
+import com.example.customerservice.entities.customer.dto.CustomerCreationDto;
 import com.example.customerservice.services.customer.AddressService;
 import com.example.customerservice.services.customer.CustomerService;
-import com.example.customerservice.entities.customer.Customer;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.apache.coyote.BadRequestException;
@@ -25,7 +25,9 @@ public class CustomerController {
     private final AddressService addressService;
     private final CustomerRepresentationModelAssembler assembler;
 
-    public CustomerController(CustomerService customerService, AddressService addressService, CustomerRepresentationModelAssembler assembler) {
+    public CustomerController(CustomerService customerService,
+                              AddressService addressService,
+                              CustomerRepresentationModelAssembler assembler) {
         this.customerService = customerService;
         this.addressService = addressService;
         this.assembler = assembler;
@@ -36,12 +38,10 @@ public class CustomerController {
     @PreAuthorize("hasAuthority('managers')")
     public ResponseEntity<EntityModel<Customer>> create(@Valid @RequestBody CustomerCreationDto creationDto) {
         Address address = addressService.get(creationDto.getAddressId());
-
-        Customer customer = new Customer();
-        customer.setFirstName(creationDto.getFirstName());
-        customer.setLastName(creationDto.getLastName());
-        customer.setEmail(creationDto.getEmail());
-        customer.setAddress(address);
+        Customer customer = Customer.newInstance(creationDto.getFirstName(),
+                creationDto.getLastName(),
+                creationDto.getEmail(),
+                address);
 
         return ResponseEntity.ok(assembler.toModel(customerService.create(customer)));
     }

@@ -40,6 +40,15 @@ public class Customer {
     @JoinColumn(name = "address_id", nullable = false)
     private Address address;
 
+    public static Customer newInstance(String firstName, String lastName, String email, Address address) {
+        Customer customer = new Customer();
+        customer.setFirstName(firstName);
+        customer.setLastName(lastName);
+        customer.setEmail(email);
+        customer.setAddress(address);
+        return customer;
+    }
+
     @Override
     public final boolean equals(Object o) {
         if (this == o) return true;

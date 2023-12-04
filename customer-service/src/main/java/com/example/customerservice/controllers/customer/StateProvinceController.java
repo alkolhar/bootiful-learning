@@ -1,9 +1,9 @@
 package com.example.customerservice.controllers.customer;
 
-import com.example.customerservice.entities.customer.dto.StateProvinceCreationDto;
 import com.example.customerservice.assemblers.customer.StateProvinceRepresentationModelAssembler;
 import com.example.customerservice.entities.customer.Country;
 import com.example.customerservice.entities.customer.StateProvince;
+import com.example.customerservice.entities.customer.dto.StateProvinceCreationDto;
 import com.example.customerservice.services.customer.CountryService;
 import com.example.customerservice.services.customer.StateProvinceService;
 import jakarta.validation.Valid;
@@ -36,12 +36,8 @@ public class StateProvinceController {
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('managers')")
     public ResponseEntity<EntityModel<StateProvince>> create(@Valid @RequestBody StateProvinceCreationDto creationDto) {
-
         Country country = countryService.get(creationDto.getCountryId());
-        StateProvince state = new StateProvince();
-        state.setName(creationDto.getName());
-        state.setAbbreviation(creationDto.getAbbreviation());
-        state.setCountry(country);
+        StateProvince state = StateProvince.newInstance(creationDto.getName(), creationDto.getAbbreviation(), country);
 
         return ResponseEntity.ok(assembler.toModel(stateProvinceService.create(state)));
     }

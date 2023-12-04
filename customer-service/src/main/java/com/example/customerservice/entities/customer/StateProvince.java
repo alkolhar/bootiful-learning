@@ -34,4 +34,13 @@ public class StateProvince {
     @JoinColumn(name = "country_id", nullable = false)
     private Country country;
 
+
+    public static StateProvince newInstance(String name, String abbreviation, Country country) {
+        StateProvince stateProvince = new StateProvince();
+        stateProvince.setName(name);
+        stateProvince.setAbbreviation(abbreviation);
+        stateProvince.setCountry(country);
+        return stateProvince;
+    }
+
 }
